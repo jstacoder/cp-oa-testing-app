@@ -1,0 +1,10 @@
+{% extends base_template or "layout_base.html" %}
+{% block header %}
+	<div><h2>Header</h2></div>
+{% endblock %}
+{% block body %}
+	<div><p>body</p><dl><dt>code</dt><dd>{{ code }}</dd><dt>state</dt><dd>{{ state }}</dd></dl></div>
+{% endblock %}
+{% block footer %}
+	<div><h6>footer <sup>.ltd</sup></h6></div>
+{% endblock %}
