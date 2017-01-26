@@ -8,6 +8,7 @@ app.config.SECRET_KEY = 'ccc'
 
 class IndexView(flask_views.MethodView):
     def get(self,code=None,state=None):
+        print flask.request.params
         rtn_args = dict()
         rtn_args['code'] = code if code is not None else "no code"
         rtn_args['state'] = state if state is not None else "no state"
