@@ -8,10 +8,10 @@ app.config.SECRET_KEY = 'ccc'
 
 class IndexView(flask_views.MethodView):
     def get(self,code=None,state=None):
-        print flask.request.params
-        rtn_args = dict()
-        rtn_args['code'] = code if code is not None else "no code"
-        rtn_args['state'] = state if state is not None else "no state"
+        #print flask.request.params
+        rtn_args = flask.request.args.copy()
+        #rtn_args['code'] = code if code is not None and rtn_args.get("code",None) is None else "no code"
+        #rtn_args['state'] = state if state is not None else "no state"
         return flask.render_template('index.html',**rtn_args)
 
     def post(self,code=None,state=None):
