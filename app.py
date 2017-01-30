@@ -3,19 +3,27 @@ from flask import views as flask_views
 
 import os
 
+from .forms import CodeForm
+
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 
+
+
 class IndexView(flask_views.MethodView):
-    def get(self,code=None,state=None):
+    def get(self):
         #print flask.request.params
         rtn_args = flask.request.args.copy()
+        if len(rtn_args):
+            template = 'code.html'
+            args = rtn_args
+        else:
+            template = 'index.html'
+            args = {'form':CodeForm()}
         #rtn_args['code'] = code if code is not None and rtn_args.get("code",None) is None else "no code"
         #rtn_args['state'] = state if state is not None else "no state"
-        return flask.render_template('index.html',**rtn_args)
+        return flask.render_template(template,**args)
 
-    def post(self,code=None,state=None):
-        return self.get(code,state)
 
 app.add_url_rule('/','index',IndexView.as_view('index'))
 

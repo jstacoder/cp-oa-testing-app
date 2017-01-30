@@ -5,16 +5,12 @@
 	</div>
 {% endblock %}
 {% block body %}
-	<div>
-		<p>body</p>
-		<dl>
-			<dt>code</dt>
-			<dd>{{ code }}</dd>
-
-			<dt>state</dt>
-			<dd>{{ state }}</dd>
-		</dl>
-	</div>
+	<form method="GET" action="https://app.cronofy.com/oauth/authorize?response_type=code">
+		{% for field in form %}
+			{{ field.label.text }}
+			{{ field() }}
+		{% endfor %}
+	</form>
 {% endblock %}
 {% block footer %}
 	<div>

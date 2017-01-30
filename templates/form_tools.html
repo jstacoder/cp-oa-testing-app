@@ -1,0 +1,12 @@
+{% macro render_form(form) %}
+    {% if caller %}
+        {{ caller() }}
+    {% else %}
+        {% for field in form %}
+            {% if field.label %}
+                {{ field.label.text }}
+            {% endif %}
+            {{ field(class_='form-control') }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,10 @@
+{% import render_form from 'form_tools.html' %}
+<form method="POST" action="{{ form.get_action() }}" 
+    {%- if form.has_extra_attrs() -%}
+        {%- for attr in form.get_extra_attrs() -%} 
+            {{ attr.name }}="{{ attr.value }}"
+        {%- endfor -%}
+    {%- endif -%}
+>
+    {{ render_form(form) }}
+</form>
