@@ -3,7 +3,7 @@ from flask import views as flask_views
 
 import os
 
-from .forms import CodeForm
+from my_forms import CodeForm
 
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
