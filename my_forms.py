@@ -17,7 +17,8 @@ class MySelectField(SelectMultipleField):
             try: 
                 print 'VALUES!!! ', valuelist
                 self.data = valuelist
-
+            except:
+                pass
 
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
