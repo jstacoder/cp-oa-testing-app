@@ -13,6 +13,7 @@ scopes = dict(
 
 class MySelectField(fields.SelectMultipleField):
     def process_formdata(self,valuelist):
+        super(MySelectField,self).process_formdata(valuelist)
         if valuelist:
             try: 
                 print 'VALUES!!! ', valuelist
@@ -22,6 +23,7 @@ class MySelectField(fields.SelectMultipleField):
             except:
                 pass
     def process_data(self,value):
+        super(MySelectField,self).process_data(value)
         try:           
             values = value.split(',') 
             self.data = values if len(values) else value
