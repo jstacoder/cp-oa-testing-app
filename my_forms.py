@@ -11,6 +11,14 @@ scopes = dict(
     change_participation_status='change_participation_status',
 )
 
+class MySelectField(SelectMultipleField):
+    def process_formdata(self,valuelist):
+        if valuelist:
+            try: 
+                print 'VALUES!!! ', valuelist
+                self.data = valuelist
+
+
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
     redirect_uri = fields.StringField("redirect uri",validators=[validators.InputRequired()])
