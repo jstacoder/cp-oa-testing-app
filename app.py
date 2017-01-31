@@ -1,5 +1,5 @@
 import flask
-from flask import views as flask_views
+from flask import views as flask_views, request
 
 import os
 
@@ -14,6 +14,7 @@ app.config.SECRET_KEY = 'ccc'
 class FormHandlerView(flask_views.MethodView):
     def get(self):
         print request.args,request.params,request.json,request.form,request.data
+        return request.data
 
 app.add_url_rule('/submit','submit',FormHandlerView.as_view('submit'))
 
