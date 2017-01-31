@@ -14,7 +14,8 @@ scopes = dict(
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
     redirect_uri = fields.StringField("redirect uri",validators=[validators.InputRequired()])
-    scopes = fields.SelectMultipleField('scopes',validators=None,choices=zip(scopes.keys(),scopes.keys()),option_widget=wtf.widgets.RadioInput())
+    scope = fields.SelectMultipleField('scopes',validators=None,choices=zip(scopes.keys(),scopes.keys()),option_widget=wtf.widgets.RadioInput())
+    response_type = fields.HiddenField(default='code')
     submit = fields.SubmitField("submit")
 
 
