@@ -16,7 +16,9 @@ class MySelectField(fields.SelectMultipleField):
         if valuelist:
             try: 
                 print 'VALUES!!! ', valuelist
-                self.data = valuelist
+                self.data = ""
+                for item in valuelist:
+                    self.data += " {}".format(item[1])
             except:
                 pass
 
