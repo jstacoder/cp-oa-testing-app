@@ -9,7 +9,7 @@ from my_forms import CodeForm
 
 os.environ['PYTHONUNBUFFERED'] = '1'
 CLIENT_ID = os.environ.get("CRONOFY_CLIENT_ID")
-REDIRECT_URI os.environ.get("CRONOFY_REDIRECT_URI")
+REDIRECT_URI = os.environ.get("CRONOFY_REDIRECT_URI")
 
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
