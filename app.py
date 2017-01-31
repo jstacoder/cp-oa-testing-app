@@ -20,7 +20,7 @@ class FormHandlerView(flask_views.MethodView):
     def get(self):
         print request.args#,request.params,request.json,request.form,request.data
 	form = CodeForm(request.args)
-	url = "https://app.cronofy.com?response_type=code&client_id={}&redirect_uri={}&scope={}&state=".format(
+	url = "https://app.cronofy.com/oauth/authorize?response_type=code&client_id={}&redirect_uri={}&scope={}&state=".format(
             form.client_id.data,
             form.redirect_uri.data,
             form.scope.data
