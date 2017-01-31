@@ -11,7 +11,7 @@ scopes = dict(
     change_participation_status='change_participation_status',
 )
 
-class MySelectField(SelectMultipleField):
+class MySelectField(fields.SelectMultipleField):
     def process_formdata(self,valuelist):
         if valuelist:
             try: 
