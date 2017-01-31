@@ -10,10 +10,26 @@
 
 			<dt>scope</dt>
 			<dd>{{ scope }}</dd>
-
-			<dt>response</dt>
-			<dd>{{ response }}</dd>
-		</dl>
+			{% if response %}
+				<dt>response</dt>
+				<dd>
+					<ul>
+						<li>access token: {{ response['access_token'] }}</li>
+						<li>expires in: {{ response['expires_in'] }}</li>
+						<li>token_type: {{ response['token_type'] }}</li>
+						<li>scope: {{ response['scope'] }}</li>
+						<li>linking profile: 
+							<ul>
+								<li>provider name: {{ response['linking_profile']['profile_name'] }}</li>
+								<li>profile id: {{ response['linking_profile']['profile_id'] }}</li>
+								<li>profile name: {{ response['linking_profile']['profile_name'] }}</li>
+							</ul>
+						</li>
+						<li>account id: {{ response['account_id'] }}</li>
+						<li>refresh token: {{ response['refresh_token'] }}</li>
+					</ul>	
+				</dd>
+			{% endif %}
 		</dl>
 	</div>
 {% endblock %}
