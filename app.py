@@ -14,7 +14,8 @@ app.config.SECRET_KEY = 'ccc'
 class FormHandlerView(flask_views.MethodView):
     def get(self):
         print request.args#,request.params,request.json,request.form,request.data
-        return flask.render_template_string("{{ args }}",**dict(args=request.args))
+	form = CodeForm(request.args)
+        return flask.render_template_string("{{ args }}<br />scope: {{ data }}",**dict(args=request.args,data=form.scope))
 
 app.add_url_rule('/submit','submit',FormHandlerView.as_view('submit'))
 
