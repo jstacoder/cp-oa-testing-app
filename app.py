@@ -5,7 +5,7 @@ import os
 
 from my_forms import CodeForm
 
-os.environ['PYTHONUNBUFFERED'] = 1
+os.environ['PYTHONUNBUFFERED'] = '1'
 
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
