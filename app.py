@@ -38,7 +38,20 @@ class IndexView(flask_views.MethodView):
         rtn_args = flask.request.args.copy()
         if len(rtn_args):
             template = 'code.html'
-            args = rtn_args
+            GRANT_TYPE = "authorization_code"
+            code = rtn_args['code']
+            client_secret = os.environ.get("CRONOFY_CLIENT_SECRET")
+            oauth_args = dict(
+                client_id = CLIENT_ID,
+                client_secret = client_secret,
+                grant_type = GRANT_TYPE,
+                code = code,
+                redirect_uri = REDIRECT_URI,
+            )
+            response = rsession.post("https://api.cronofy.com/oauth/token",json=oauth_args)
+            rtn = response.json() if response.ok() else response.reason
+            args = dict(response=rtn)
+            print rtn 
         else:
             template = 'index.html'
             form_args = {}
