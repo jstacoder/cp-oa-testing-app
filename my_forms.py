@@ -25,7 +25,7 @@ class MySelectField(fields.SelectMultipleField):
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
     redirect_uri = fields.StringField("redirect uri",validators=[validators.InputRequired()])
-    scope = fields.SelectMultipleField('scopes',validators=None,choices=zip(scopes.keys(),scopes.keys()))
+    scope = MySelectField('scopes',validators=None,choices=zip(scopes.keys(),scopes.keys()))
     response_type = fields.HiddenField(default='code')
     submit = fields.SubmitField("submit")
 
