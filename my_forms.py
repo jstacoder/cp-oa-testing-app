@@ -18,9 +18,13 @@ class MySelectField(fields.SelectMultipleField):
                 print 'VALUES!!! ', valuelist
                 self.data = ""
                 for item in valuelist:
-                    self.data += " {}".format(item[1])
+                    self.data += " {}".format(item)
             except:
                 pass
+    def process_data(self,value):
+        try:           
+            values = value.split(',') 
+            self.data = values if len(values) else value
 
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
