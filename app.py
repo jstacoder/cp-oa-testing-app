@@ -1,6 +1,8 @@
 import flask
 from flask import views as flask_views, request
 
+from requests import Session as RequestSession
+
 import os
 
 from my_forms import CodeForm
@@ -11,11 +13,20 @@ app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 
 
+rsession = RequestSession()
+
+
 class FormHandlerView(flask_views.MethodView):
     def get(self):
         print request.args#,request.params,request.json,request.form,request.data
 	form = CodeForm(request.args)
-        return flask.render_template_string("{{ args }}<br />scope: {{ data }}",**dict(args=request.args,data=form.scope.data))
+	url = "https://app.cronofy.com?response_type=code&client_id={}&redirect_uri={}&scope={}&state=".format(
+            form.client_id.data,
+            form.redirect_uri.data,
+            form.scope.data
+        )
+        
+        return flask.render_template_string("{{ args }}<br />authenticate:<a href='{{ url }}'>go</a>",**dict(args=request.args,data=form.scope.data,url=url))
 
 app.add_url_rule('/submit','submit',FormHandlerView.as_view('submit'))
 
