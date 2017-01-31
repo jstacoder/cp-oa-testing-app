@@ -49,7 +49,7 @@ class IndexView(flask_views.MethodView):
                 redirect_uri = REDIRECT_URI,
             )
             response = rsession.post("https://api.cronofy.com/oauth/token",json=oauth_args)
-            rtn = response.json() if response.ok() else response.reason
+            rtn = response.json() if response.ok else response.reason
             args = dict(response=rtn)
             print rtn 
         else:
