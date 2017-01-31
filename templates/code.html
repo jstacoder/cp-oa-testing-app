@@ -2,14 +2,6 @@
 	<div>
 		<p>body</p>
 		<dl>
-			<dt>code</dt>
-			<dd>{{ code }}</dd>
-
-			<dt>state</dt>
-			<dd>{{ state }}</dd>
-
-			<dt>scope</dt>
-			<dd>{{ scope }}</dd>
 			{% if response %}
 				<dt>response</dt>
 				<dd>
@@ -29,6 +21,15 @@
 						<li>refresh token: {{ response['refresh_token'] }}</li>
 					</ul>	
 				</dd>
+			{% else %}
+				<dt>code</dt>
+				<dd>{{ code }}</dd>
+	
+				<dt>state</dt>
+				<dd>{{ state }}</dd>
+	
+				<dt>scope</dt>
+				<dd>{{ scope }}</dd>
 			{% endif %}
 		</dl>
 	</div>
