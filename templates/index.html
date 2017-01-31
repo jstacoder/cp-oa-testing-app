@@ -6,13 +6,14 @@
 {% endblock %}
 {% block body %}
 	<form method="GET" action="/submit"> <!--https://app.cronofy.com/oauth/authorize?response_type=code">-->
-		{{ form.hidden_field() }}
 		{% for field in form %}
 			{% if not field.type == 'HiddenField' %}
 				<div class="form-group">
 					<label>{{ field.label.text }}</label>
 					       {{ field(class_='form-control') }}
 				</div>
+			{% else %}
+				{{ field() }}
 			{% endif %}
 		{% endfor %}
 	</form>
