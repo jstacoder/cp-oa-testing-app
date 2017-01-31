@@ -8,6 +8,8 @@ import os
 from my_forms import CodeForm
 
 os.environ['PYTHONUNBUFFERED'] = '1'
+CLIENT_ID = os.environ.get("CRONOFY_CLIENT_ID")
+REDIRECT_URI os.environ.get("CRONOFY_REDIRECT_URI")
 
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
@@ -39,7 +41,13 @@ class IndexView(flask_views.MethodView):
             args = rtn_args
         else:
             template = 'index.html'
-            args = {'form':CodeForm()}
+            form_args = {}
+            if CLIENT_ID is not None:
+                form_args['client_id'] = CLIENT_ID
+            if REDIRECT_URI is not None:
+                form_args['redirect_uri'] = REDIRECT_URI
+            form = CodeForm(**form_args)
+            args = {'form':form}
         #rtn_args['code'] = code if code is not None and rtn_args.get("code",None) is None else "no code"
         #rtn_args['state'] = state if state is not None else "no state"
         return flask.render_template(template,**args)
