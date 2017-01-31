@@ -25,6 +25,8 @@ class MySelectField(fields.SelectMultipleField):
         try:           
             values = value.split(',') 
             self.data = values if len(values) else value
+        except:
+            pass
 
 class CodeForm(form.Form):
     client_id = fields.StringField("client id",validators=[validators.InputRequired()])
