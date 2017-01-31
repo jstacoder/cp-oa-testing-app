@@ -5,10 +5,17 @@ import os
 
 from my_forms import CodeForm
 
+os.environ['PYTHONUNBUFFERED'] = 1
+
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 
 
+class FormHandlerView(flask_views.MethodView):
+    def get(self):
+        print request.args,request.params,request.json,request.form,request.data
+
+app.add_url_rule('/submit','submit',FormHandlerView.a_view('submit'))
 
 class IndexView(flask_views.MethodView):
     def get(self):

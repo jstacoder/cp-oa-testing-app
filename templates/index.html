@@ -5,10 +5,15 @@
 	</div>
 {% endblock %}
 {% block body %}
-	<form method="GET" action="https://app.cronofy.com/oauth/authorize?response_type=code">
+	<form method="GET" action="/submit"> <!--https://app.cronofy.com/oauth/authorize?response_type=code">-->
+		{{ form.hidden_field() }}
 		{% for field in form %}
-			{{ field.label.text }}
-			{{ field() }}
+			{% if not field.type == 'HiddenField' %}
+				<div class="form-group">
+					<label>{{ field.label.text }}</label>
+					       {{ field(class_='form-control') }}
+				</div>
+			{% endif %}
 		{% endfor %}
 	</form>
 {% endblock %}
