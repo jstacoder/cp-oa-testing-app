@@ -63,8 +63,8 @@ class IndexView(flask_views.MethodView):
             response = rsession.post("https://api.cronofy.com/oauth/token",json=oauth_args)
             rtn = response.json() if response.ok else response.reason
             args = dict(response=rtn)
-            flask_session['access_token'] = json.loads(rtn).get('access_token')
-            flask_session['refresh_token'] = json.loads(rtn).get('refresh_token')
+            flask_session['access_token'] = rtn.get('access_token')
+            flask_session['refresh_token'] = rtn.get('refresh_token')
             return_response = redirect(url_for("calendars"))
         else:
             template = 'index.html'
