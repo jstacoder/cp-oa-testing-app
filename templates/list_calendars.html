@@ -3,7 +3,7 @@
     <h2>Calendars</h2>
     <ul>
         {% for calendar in calendars %}
-            {{ calendar | json }}
+            {{ calendar | pprint:True }}
         {% endfor %}
     </ul>
 {% endblock body %}
