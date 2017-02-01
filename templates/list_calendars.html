@@ -3,25 +3,7 @@
     <h2>Calendars</h2>
     <ul>
         {% for calendar in calendars %}
-            <li>Provider: 
-                <ul>
-                    {{ calendar['provider_name'] }}
-                    <li>
-                        profiles:
-                            <ul>
-                                {% for profile in calendar_profiles[calendar['profile_name']] %}
-                                    <li>{{ profile }}:
-                                        <ul>
-                                            {% for cal in calendars_by_profile[profile] %}
-                                                {{ cal['name'] }}
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                </ul>
-            </li>
+            {{ calendar | json }}
         {% endfor %}
     </ul>
 {% endblock body %}
