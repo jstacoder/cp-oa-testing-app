@@ -1,5 +1,5 @@
 import flask
-from flask import views as flask_views, request, session as flask_session, redirect
+from flask import views as flask_views, request, session as flask_session, redirect, url_for
 
 from requests import Session as RequestSession
 
@@ -24,7 +24,7 @@ class ListCalendarView(flask_views.MethodView):
             flask_session['access_token']
         )
         response = rsession.get("https://api.cronofy.com/v1/calendars")
-        return flask.render_template_string("{{ response }}",response=response.reason)
+        return flask.render_template_string("{{ response }}",response=response.reason,token=flask_session['access_token'])
 
 app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
 
@@ -63,7 +63,7 @@ class IndexView(flask_views.MethodView):
             args = dict(response=rtn)
             flask_session['access_token'] = rtn.get('access_token')
             flask_session['refresh_token'] = rtn.get('refresh_token')
-            return_response = redirect("calendars")
+            return_response = redirect(url_for("calendars"))
         else:
             template = 'index.html'
             form_args = {}
