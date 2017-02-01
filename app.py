@@ -29,6 +29,20 @@ class ListCalendarView(flask_views.MethodView):
         except KeyError:
             return flask.redirect('/')
         response = rsession.get("https://api.cronofy.com/v1/calendars")
+
+        calendars_by_profile = dict()
+
+        extract_cal = lambda cal:\
+         dict(name=cal.get('calendar_name'),id=cal.get('calendar_id'))
+
+        for cal in response.json().get('calendars'):
+            profile_name = cal.get('profile_name')
+            if calendars_by_profile.get(profile_name) is None:
+                calendars_by_profile[profile_name] = []
+            calendars_by_profile[profile_name].append(extract_cal(cal))
+        
+        calendar_profiles = calendars_by_profile.keys()
+
         rtn_template = app.jinja_env.from_string("{{ response|safe }}")
         template_context = dict(
             response=json.dumps(response.json()),
@@ -36,7 +50,13 @@ class ListCalendarView(flask_views.MethodView):
         )
         res = flask.make_response(rtn_template.render(template_context))
         res.headers['Content-Type'] = 'application/json'
-        return res
+        #return res
+        return flask.render_template(
+            "list_calendars.html",
+            calendars=response.json().get('calendars'),
+            calendar_profiles=calendar_profiles,
+            calendars_by_profile=calendars_by_profile            
+        )
 
 app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
 
