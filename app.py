@@ -22,9 +22,12 @@ rsession = RequestSession()
 
 class ListCalendarView(flask_views.MethodView):
     def get(self):
-        rsession.headers['Authorization'] = "Bearer: {}".format(
-            flask_session['access_token']
-        )
+        try:
+            rsession.headers['Authorization'] = "Bearer: {}".format(
+                flask_session['access_token']
+            )
+        except KeyError:
+            return flask.redirect('/')
         response = rsession.get("https://api.cronofy.com/v1/calendars")
         return flask.render_template_string("{{ response }}",response=response.reason,token=flask_session['access_token'])
 
