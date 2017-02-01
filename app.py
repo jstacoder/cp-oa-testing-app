@@ -1,5 +1,5 @@
 import flask
-from flask import views as flask_views, request
+from flask import views as flask_views, request, session as flask_session, redirect
 
 from requests import Session as RequestSession
 
@@ -17,6 +17,15 @@ app.config.SECRET_KEY = 'ccc'
 
 rsession = RequestSession()
 
+
+class ListCalendarView(flask_views.MethodView):
+    def get(self):
+        rsession.headers['Authorization'] = "Bearer: {}".format(
+            flask_session['access_token']
+        )
+        response = rsession.get("https://api.cronofy.com/v1/calendars")
+        return flask.render_template_string("{{ response }}",response=response)
+         
 
 class FormHandlerView(flask_views.MethodView):
     def get(self):
@@ -51,7 +60,9 @@ class IndexView(flask_views.MethodView):
             response = rsession.post("https://api.cronofy.com/oauth/token",json=oauth_args)
             rtn = response.json() if response.ok else response.reason
             args = dict(response=rtn)
-            print rtn 
+            flask_session['access_token'] = rtn.get('access_token')
+            flask_session['refresh_token'] = rtn.get('refresh_token')
+            return_response = redirect("list_calendars")
         else:
             template = 'index.html'
             form_args = {}
@@ -60,10 +71,9 @@ class IndexView(flask_views.MethodView):
             if REDIRECT_URI is not None:
                 form_args['redirect_uri'] = REDIRECT_URI
             form = CodeForm(**form_args)
-            args = {'form':form}
-        #rtn_args['code'] = code if code is not None and rtn_args.get("code",None) is None else "no code"
-        #rtn_args['state'] = state if state is not None else "no state"
-        return flask.render_template(template,**args)
+            args = {'form':form}        
+            return_response = flask.render_template(template,**args)
+        return return_response
 
 
 app.add_url_rule('/','index',IndexView.as_view('index'))
