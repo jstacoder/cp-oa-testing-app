@@ -23,7 +23,7 @@ rsession = RequestSession()
 class ListCalendarView(flask_views.MethodView):
     def get(self):
         try:
-            rsession.headers['Authorization'] = "Bearer: {}".format(
+            rsession.headers['Authorization'] = "Bearer {}".format(
                 flask_session['access_token']
             )
         except KeyError:
