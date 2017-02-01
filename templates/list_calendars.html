@@ -3,7 +3,9 @@
     <h2>Calendars</h2>
     <ul>
         {% for calendar in calendars %}
-            {{ calendar | pprint }}
+            <pre>
+                {{ calendar | pprint }}
+            </pre>
         {% endfor %}
     </ul>
 {% endblock body %}
