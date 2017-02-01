@@ -31,7 +31,7 @@ class ListCalendarView(flask_views.MethodView):
         response = rsession.get("https://api.cronofy.com/v1/calendars")
         rtn_template = app.jinja_env.from_string("{{ response }}")
         template_context = dict(
-            response=response.json(),
+            response=json.dumps(response.json()),
             token=flask_session['access_token']
         )
         res = flask.make_response(rtn_template.render(template_context))
