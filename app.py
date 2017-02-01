@@ -15,8 +15,6 @@ app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 app.secret_key = 'ccc'
 
-
-
 rsession = RequestSession()
 
 
@@ -26,8 +24,9 @@ class ListCalendarView(flask_views.MethodView):
             flask_session['access_token']
         )
         response = rsession.get("https://api.cronofy.com/v1/calendars")
-        return flask.render_template_string("{{ response }}",response=response)
-app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))      
+        return flask.render_template_string("{{ response }}",response=response.reason)
+
+app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
 
 class FormHandlerView(flask_views.MethodView):
     def get(self):
