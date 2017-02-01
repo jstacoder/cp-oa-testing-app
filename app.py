@@ -29,8 +29,12 @@ class ListCalendarView(flask_views.MethodView):
         except KeyError:
             return flask.redirect('/')
         response = rsession.get("https://api.cronofy.com/v1/calendars")
-        rtn =  app.jinja_env.from_string("{{ response }}",response=response.json(),token=flask_session['access_token'])
-        res = flask.make_response(rtn)
+        rtn_template = app.jinja_env.from_string("{{ response }}")
+        template_context = dict(
+            response=response.json(),
+            token=flask_session['access_token']
+        )
+        res = flask.make_response(rtn_template.render(template_context))
         res.headers['Content-Type'] = 'application/json'
         return res
 
