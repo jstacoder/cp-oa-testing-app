@@ -9,7 +9,7 @@
                     <li>
                         profiles:
                             <ul>
-                                {% for profile in calendar_profiles[calendar['provider_name']] %}
+                                {% for profile in calendar_profiles[calendar['profile_name']] %}
                                     <li>{{ profile }}:
                                         <ul>
                                             {% for cal in calendars_by_profile[profile] %}
