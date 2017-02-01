@@ -13,6 +13,8 @@ REDIRECT_URI = os.environ.get("CRONOFY_REDIRECT_URI")
 
 app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
+app.secret_key = 'ccc'
+
 
 
 rsession = RequestSession()
