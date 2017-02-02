@@ -7,7 +7,7 @@ from requests import Session as RequestSession
 
 import os
 
-from my_forms import CodeForm
+from my_forms import CodeForm, scopes
 
 os.environ['PYTHONUNBUFFERED'] = '1'
 CLIENT_ID = os.environ.get("CRONOFY_CLIENT_ID")
@@ -98,7 +98,7 @@ class IndexView(flask_views.MethodView):
             return_response = redirect(url_for("calendars"))
         else:
             template = 'index.html'
-            form_args = {}
+            form_args = {'scope':scopes.keys()}
             if CLIENT_ID is not None:
                 form_args['client_id'] = CLIENT_ID
             if REDIRECT_URI is not None:
