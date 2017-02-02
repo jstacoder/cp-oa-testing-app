@@ -69,14 +69,14 @@ class FormHandlerView(flask_views.MethodView):
             form.redirect_uri.data,
             form.scope.data
         )
+        return flask.redirect(url)
         
-        return flask.render_template_string("{{ args }}<br />authenticate:<a href='{{ url }}'>go</a>",**dict(args=request.args,data=form.scope.data,url=url))
+        #return flask.render_template_string("{{ args }}<br />authenticate:<a href='{{ url }}'>go</a>",**dict(args=request.args,data=form.scope.data,url=url))
 
 app.add_url_rule('/submit','submit',FormHandlerView.as_view('submit'))
 
 class IndexView(flask_views.MethodView):
     def get(self):
-        #print flask.request.params
         rtn_args = flask.request.args.copy()
         if len(rtn_args):
             template = 'code.html'
