@@ -56,7 +56,7 @@ class ListCalendarView(flask_views.MethodView):
         res = flask.make_response(rtn_template.render(template_context))
         res.headers['Content-Type'] = 'application/json'
         return flask.render_template(
-            "list_clendars.html",
+            "list_calendars.html",
             calendars_by_provider=get_calenders_by_provider(calendars),
             calendars=calendars,
             calendar_profiles=calendar_profiles,
