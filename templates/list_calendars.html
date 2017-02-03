@@ -1,4 +1,26 @@
 {% extends 'layout_base.html' %} 
+{% macro render_calendars_by_provider(calendars_by_profile) %}
+    {% set cals = {} %}
+    <table>
+        <thead>
+            <tr>
+                {% for profile in calendars_by_profile.keys() %}
+                    <th>{{ profile }}</th>
+                    {#{% set cals[profile] = calendars_by_profile[profile] %}#}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>            
+            {% for p in calendars_by_profile %}
+               <tr>
+                   {% for cal in calendars_by_profile[p] %}
+                        <td>{{ cal['calendar_name'] }}</td>
+                  {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
 {% block body %}
     <h2>Calendars</h2>
     <pre>>{{ calendars | pprint }}</pre>
@@ -6,4 +28,5 @@
     <pre>{{ calendars_by_profile | pprint }}</pre>
     <h2>Calendars by provider</h2>
     <pre>{{ calendars_by_provider | pprint }}</pre> 
+    {{ render_calendars_by_provider(calendars_by_provider) }}
 {% endblock body %}
