@@ -1,5 +1,6 @@
 import wtforms as wtf
 from wtforms import fields, validators, form
+from wtforms.fields import html5
 
 scopes = dict(
     create_calendar='create_calendar',
@@ -37,4 +38,13 @@ class CodeForm(form.Form):
     response_type = fields.HiddenField(default='code')
     submit = fields.SubmitField("submit")
 
+class CreateEventForm(form.Form):
+    event_id = fields.HiddenField()
+    summary = fields.StringField('Summary',validators=[validators.InputRequired()])
+    description = fields.TextAreaField("description")
+    start = html5.DateTimeField("start")
+    end = html5.DateTimeField("end")
+    tzid = fields.HiddenField(default="America/Los_Angeles")
+    location = fields.StringField("location")
+    submit = fields.SubmitField()
 

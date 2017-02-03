@@ -1,0 +1,6 @@
+{% extends "layout_base.html" %}
+{% block body %}
+    {% for field in form %}
+        {{ field() }}
+    {% endfor %}
+{% endblock %}

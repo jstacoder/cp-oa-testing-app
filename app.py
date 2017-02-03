@@ -1,13 +1,12 @@
 import flask
 from flask import views as flask_views, request, session as flask_session, redirect, url_for
 
-
 import json
 from requests import Session as RequestSession
 
 import os
-
-from my_forms import CodeForm, scopes
+from calendar_data_tools import get_calenders_by_provider
+from my_forms import CodeForm, scopes, CreateEventForm
 
 os.environ['PYTHONUNBUFFERED'] = '1'
 CLIENT_ID = os.environ.get("CRONOFY_CLIENT_ID")
@@ -19,6 +18,12 @@ app.secret_key = 'ccc'
 
 rsession = RequestSession()
 
+class EventView(flask_views.MethodView):
+    def get(self):
+        form = CreateEventForm()
+        return flask.render_template("add_event.html",form=form)
+
+app.add_url_rule("/event/add","add_event",view_func=EventView.as_view('add_event'))
 
 class ListCalendarView(flask_views.MethodView):
     def get(self):
@@ -34,8 +39,8 @@ class ListCalendarView(flask_views.MethodView):
 
         extract_cal = lambda cal:\
          dict(name=cal.get('calendar_name'),id=cal.get('calendar_id'))
-
-        for cal in response.json().get('calendars'):
+        calendars = response.json().get('calendars')
+        for cal in calendars:
             profile_name = cal.get('profile_name')
             if calendars_by_profile.get(profile_name) is None:
                 calendars_by_profile[profile_name] = []
@@ -49,20 +54,19 @@ class ListCalendarView(flask_views.MethodView):
             token=flask_session['access_token']
         )
         res = flask.make_response(rtn_template.render(template_context))
-        res.headers['Content-Type'] = 'application/json'
-        #return res
+        res.headers['Content-Type'] = 'application/json'        
         return flask.render_template(
-            "list_calendars.html",
-            calendars=response.json().get('calendars'),
+            "list_clendars.html",
+            calendars_by_profile=calendars_by_profile(calendars),
+            calendars=calendars,
             calendar_profiles=calendar_profiles,
-            calendars_by_profile=calendars_by_profile            
+            calendars_by_profile=calendars_by_profile,
         )
 
 app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
 
 class FormHandlerView(flask_views.MethodView):
-    def get(self):
-        print request.args#,request.params,request.json,request.form,request.data
+    def get(self):        
 	form = CodeForm(request.args)
 	url = "https://app.cronofy.com/oauth/authorize?response_type=code&client_id={}&redirect_uri={}&scope={}&state=".format(
             form.client_id.data,
@@ -70,8 +74,6 @@ class FormHandlerView(flask_views.MethodView):
             form.scope.data
         )
         return flask.redirect(url)
-        
-        #return flask.render_template_string("{{ args }}<br />authenticate:<a href='{{ url }}'>go</a>",**dict(args=request.args,data=form.scope.data,url=url))
 
 app.add_url_rule('/submit','submit',FormHandlerView.as_view('submit'))
 
@@ -108,9 +110,7 @@ class IndexView(flask_views.MethodView):
             return_response = flask.render_template(template,**args)
         return return_response
 
-
 app.add_url_rule('/','index',IndexView.as_view('index'))
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=int(os.environ.get('PORT',8000)),debug=True)
