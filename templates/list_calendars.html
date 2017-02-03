@@ -1,6 +1,3 @@
-{% extends 'layout_base.html' %}
-{% block body %}
-    <h2>Calendars</h2>            
-    <pre>{{ calendars | pprint }}</pre>        
-    <pre>{{ calendars_by_profile }}</pre>
-{% endblock body %}
+{% extends 'layout_base.html' %} {% block body %}
+<h2>Calendars</h2>
+<pre>{{ calendars | pprint }}</pre> {{ calendars_by_profile | pprint }} {% endblock body %}
