@@ -57,10 +57,10 @@ class ListCalendarView(flask_views.MethodView):
         res.headers['Content-Type'] = 'application/json'
         return flask.render_template(
             "list_clendars.html",
-            calendars_by_profile=calendars_by_profile(calendars),
+            calendars_by_provider=get_calendars_by_provider(calendars),
             calendars=calendars,
             calendar_profiles=calendar_profiles,
-            #calendars_by_profile=calendars_by_profile,
+            calendars_by_profile=calendars_by_profile,
         )
 
 app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
