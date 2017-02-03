@@ -45,7 +45,7 @@ class ListCalendarView(flask_views.MethodView):
             if calendars_by_profile.get(profile_name) is None:
                 calendars_by_profile[profile_name] = []
             calendars_by_profile[profile_name].append(extract_cal(cal))
-        
+
         calendar_profiles = calendars_by_profile.keys()
 
         rtn_template = app.jinja_env.from_string("{{ response|safe }}")
@@ -54,19 +54,19 @@ class ListCalendarView(flask_views.MethodView):
             token=flask_session['access_token']
         )
         res = flask.make_response(rtn_template.render(template_context))
-        res.headers['Content-Type'] = 'application/json'        
+        res.headers['Content-Type'] = 'application/json'
         return flask.render_template(
             "list_clendars.html",
             calendars_by_profile=calendars_by_profile(calendars),
             calendars=calendars,
             calendar_profiles=calendar_profiles,
-            calendars_by_profile=calendars_by_profile,
+            #calendars_by_profile=calendars_by_profile,
         )
 
 app.add_url_rule('/list_calendars','calendars',ListCalendarView.as_view('calendars'))
 
 class FormHandlerView(flask_views.MethodView):
-    def get(self):        
+    def get(self):
 	form = CodeForm(request.args)
 	url = "https://app.cronofy.com/oauth/authorize?response_type=code&client_id={}&redirect_uri={}&scope={}&state=".format(
             form.client_id.data,
@@ -106,7 +106,8 @@ class IndexView(flask_views.MethodView):
             if REDIRECT_URI is not None:
                 form_args['redirect_uri'] = REDIRECT_URI
             form = CodeForm(**form_args)
-            args = {'form':form}        
+
+            args = {'form':form}
             return_response = flask.render_template(template,**args)
         return return_response
 
