@@ -1,4 +1,7 @@
 {% extends "layout_base.html" %}
+{% block header %}
+    <h2>Add Event to {{ calendar_name }} calendar</h2>
+{% endblock %}
 {% block body %}
     <form method="post">
         {% for field in form %}
