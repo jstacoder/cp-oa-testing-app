@@ -9,7 +9,7 @@
                 {% if field.label.text and not (field.type == "HiddenField" or field.type == "SubmitField") %}
                     <label for="{{ field.name }}">{{ field.label.text }}</label>
                 {% endif %}
-                {% if field.type not 'SubmitField' %}
+                {% if field.type != 'SubmitField' %}
                     {{ field(class_="form-control") }}
                 {% else %}
                     {{ field(class_="btn btn-default") }}
