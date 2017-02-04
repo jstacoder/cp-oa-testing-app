@@ -6,7 +6,7 @@
     <form method="post">
         {% for field in form %}
             <div class="form-group">
-                {% if field.label.text %}
+                {% if field.label.text and not field.type == "HiddenField" %}
                     <label for="{{ field.name }}">{{ field.label.text }}</label>
                 {% endif %}
                 {{ field(class_="form-control") }}
