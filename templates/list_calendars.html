@@ -6,8 +6,8 @@
         <p>{{ p }}</p>
         <ul>
             {% for cal in calendars_by_profile[p] %}
-                <li>
-                    <ul>{{ cal['calendar_name'] }}
+                <li>{{ cal['calendar_name'] }}
+                    <ul>
                         <li><a href="/event/add/{{ cal['calendar_id'] }}">add event</a></li>
                     </ul>                    
                 </li>
