@@ -6,7 +6,7 @@ from uuid import uuid4
 from requests import Session as RequestSession
 
 import os
-from pycronofy import get_iso8601_string
+from pycronofy.datetime_utils import get_iso8601_string
 from calendar_data_tools import get_calenders_by_provider
 from my_forms import CodeForm, scopes, CreateEventForm
 
