@@ -34,6 +34,12 @@ def load_session():
     
 get_id = lambda prefix=None: "{}-{}".format(prefix or "testid", uuid4())
 
+class EventListView(flask_views.MethodView):
+    def get(self,cal_id=None):
+        if cal_id is None:
+            return flask.abort(404)
+        events = load_session().get("https://api.cronofy.com/v1/calendars/{}/events".format(cal_id))
+
 class EventView(flask_views.MethodView):
     def get(self,cal_id=None):
         cal_name = None
