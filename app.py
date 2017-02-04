@@ -49,8 +49,8 @@ class EventView(flask_views.MethodView):
             event_id=new_event_id,
             summary=form.summary.data,
             description=form.description.data,
-            start=get_iso8601_string(parse(form.start.data)),
-            end=get_iso8601_string(parse(form.end.data)),
+            start=get_iso8601_string(parse(form.start.raw_data[0])),
+            end=get_iso8601_string(parse(form.end.raw_data[0])),
             tzid=form.tzid.data,
             location=dict(description=form.location.data),
         )
