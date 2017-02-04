@@ -53,7 +53,7 @@ class EventView(flask_views.MethodView):
             location=dict(description=form.location.data),
         )
         response = load_session().post("https://api.cronofy.com/v1/calendars/{}/events".format(cal_id),json=event_args)
-        res_json = json.dumps(response)
+        res_json = json.dumps(response.json())
         return flask.jsonify(res_json)
 
 
