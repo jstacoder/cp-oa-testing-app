@@ -45,7 +45,7 @@ class EventView(flask_views.MethodView):
         form = CreateEventForm(request.args)
 
         event_args = dict(
-            event_id=new_event_id(),
+            event_id=new_event_id,
             summary=form.summary.data,
             description=form.description.data,
             start=get_iso8601_string(form.start.data),
