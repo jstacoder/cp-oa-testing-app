@@ -6,10 +6,14 @@
     <form method="post">
         {% for field in form %}
             <div class="form-group">
-                {% if field.label.text and not field.type == "HiddenField" %}
+                {% if field.label.text and not (field.type == "HiddenField" or field.type == "SubmitField") %}
                     <label for="{{ field.name }}">{{ field.label.text }}</label>
                 {% endif %}
-                {{ field(class_="form-control") }}
+                {% if field.type not 'SubmitField' %}
+                    {{ field(class_="form-control") }}
+                {% else %}
+
+                {% endif %}
             </div>
         {% endfor %}
 {% endblock %}
