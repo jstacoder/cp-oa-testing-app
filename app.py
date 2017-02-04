@@ -16,23 +16,33 @@ app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 app.secret_key = 'ccc'
 
-rsession = RequestSession()
+
+def load_session():
+    rsession = RequestSession()
+    try:
+        rsession.headers['Authorization'] = "Bearer {}".format(
+            flask_session['access_token']
+    )
+    except KeyError:
+        return flask.redirect('/')
+    else:
+        return rsession
+    
 
 class EventView(flask_views.MethodView):
     def get(self,cal_id=None):
+        cal_name = None
+        for cal in load_session().get("https://api.cronofy.com/v1/calendars").json().get('calendars'):
+            if cal.get('calendar_id') == cal_id:
+                cal_name = cal.get('calendar_name')
         form = CreateEventForm(cal_id=cal_id)
-        return flask.render_template("add_event.html",form=form)
+        return flask.render_template("add_event.html",form=form,calendar_name=cal_name)
 
 app.add_url_rule("/event/add/<cal_id>","add_event",view_func=EventView.as_view('add_event'))
 
 class ListCalendarView(flask_views.MethodView):
     def get(self):
-        try:
-            rsession.headers['Authorization'] = "Bearer {}".format(
-                flask_session['access_token']
-            )
-        except KeyError:
-            return flask.redirect('/')
+        rsession = load_session()
         response = rsession.get("https://api.cronofy.com/v1/calendars")
 
         calendars_by_profile = dict()
