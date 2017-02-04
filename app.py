@@ -42,7 +42,7 @@ class EventView(flask_views.MethodView):
   
     def post(self,cal_id=None):
         new_event_id = get_id("newevent")
-        form = CreateEventForm(request.args)
+        form = CreateEventForm(request.form)
 
         event_args = dict(
             event_id=new_event_id,
