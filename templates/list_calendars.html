@@ -1,8 +1,16 @@
 {% extends 'layout_base.html' %} 
 {% macro render_calendars_by_provider(calendars_by_profile) %}
+    <style>
+        .cal-box {
+            display:inline-block;
+            border: 1px solid black;
+            border-radius:10%;
+        }
+    </style>
     {% set cals = {} %}
     {% set profiles = calendars_by_profile.keys() %}                              
     {% for p in profiles %}
+    <div class="cal-box">
         <p>{{ p }}</p>
         <ul>
             {% for cal in calendars_by_profile[p] %}
@@ -13,6 +21,7 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
     {% endfor %}            
 {% endmacro %}
 {% block body %}
