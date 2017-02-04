@@ -19,11 +19,11 @@ app.secret_key = 'ccc'
 rsession = RequestSession()
 
 class EventView(flask_views.MethodView):
-    def get(self):
-        form = CreateEventForm()
+    def get(self,cal_id=None):
+        form = CreateEventForm(cal_id=cal_id)
         return flask.render_template("add_event.html",form=form)
 
-app.add_url_rule("/event/add","add_event",view_func=EventView.as_view('add_event'))
+app.add_url_rule("/event/add/<cal_id>","add_event",view_func=EventView.as_view('add_event'))
 
 class ListCalendarView(flask_views.MethodView):
     def get(self):

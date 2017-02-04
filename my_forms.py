@@ -40,6 +40,7 @@ class CodeForm(form.Form):
 
 class CreateEventForm(form.Form):
     event_id = fields.HiddenField()
+    cal_id = fields.HiddenField()
     summary = fields.StringField('Summary',validators=[validators.InputRequired()])
     description = fields.TextAreaField("description")
     start = html5.DateTimeField("start")
