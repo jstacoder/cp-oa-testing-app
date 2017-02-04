@@ -2,6 +2,7 @@ import flask
 from flask import views as flask_views, request, session as flask_session, redirect, url_for
 
 import json
+from uuid import uuid4
 from requests import Session as RequestSession
 
 import os
@@ -16,7 +17,6 @@ app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 app.secret_key = 'ccc'
 
-
 def load_session():
     rsession = RequestSession()
     try:
@@ -28,6 +28,7 @@ def load_session():
     else:
         return rsession
     
+get_id = lambda prefix=None: "{}-{}".format(prefix or "testid", uuid4())
 
 class EventView(flask_views.MethodView):
     def get(self,cal_id=None):
@@ -37,6 +38,24 @@ class EventView(flask_views.MethodView):
                 cal_name = cal.get('calendar_name')
         form = CreateEventForm(cal_id=cal_id)
         return flask.render_template("add_event.html",form=form,calendar_name=cal_name)
+  
+    def post(self,cal_id=None):
+        new_event_id = get_id("newevent")
+        form = CreateEventForm(request.args)
+
+        event_args = dict(
+            event_id=new_event_id,
+            summary=form.summary.data,
+            description=form.description.data,
+            start=form.start.data,
+            end=form.end.data,
+            tzid=form.tzid.data,
+            location=dict(description=form.location.data),
+        )
+        response = load_session().post("https://api.cronofy.com/v1/calendars/{}/events".format(cal_id),json=event_args)
+        res_json = json.dumps(response)
+        return flask.jsonify(res_json)
+
 
 app.add_url_rule("/event/add/<cal_id>","add_event",view_func=EventView.as_view('add_event'))
 
