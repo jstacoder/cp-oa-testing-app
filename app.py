@@ -6,6 +6,7 @@ from uuid import uuid4
 from requests import Session as RequestSession
 
 import os
+from dateutil.parser import parse
 from pycronofy.datetime_utils import get_iso8601_string
 from calendar_data_tools import get_calenders_by_provider
 from my_forms import CodeForm, scopes, CreateEventForm
@@ -48,8 +49,8 @@ class EventView(flask_views.MethodView):
             event_id=new_event_id,
             summary=form.summary.data,
             description=form.description.data,
-            start=get_iso8601_string(form.start.data),
-            end=get_iso8601_string(form.end.data),
+            start=get_iso8601_string(parse(form.start.data)),
+            end=get_iso8601_string(parse(form.end.data)),
             tzid=form.tzid.data,
             location=dict(description=form.location.data),
         )
