@@ -5,4 +5,4 @@ requests
 wtforms
 honcho
 pytz
-dateutil
+python-dateutil
