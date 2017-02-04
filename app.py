@@ -19,8 +19,10 @@ app = flask.Flask(__name__,template_folder="templates")
 app.config.SECRET_KEY = 'ccc'
 app.secret_key = 'ccc'
 
+rsession = RequestSession()
+
 def load_session():
-    rsession = RequestSession()
+    
     try:
         rsession.headers['Authorization'] = "Bearer {}".format(
             flask_session['access_token']
