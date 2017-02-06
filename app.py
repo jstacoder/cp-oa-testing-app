@@ -38,7 +38,8 @@ class EventListView(flask_views.MethodView):
         if cal_id is None:
             return flask.abort(404)
         events = load_session().get("https://api.cronofy.com/v1/events?tzid=America/Los_Angeles&include_manages=true".format(cal_id)).json()
-        return flask.jsonify(events)
+        return flask.render_template('list_events.html',**events)
+        #return flask.jsonify(events
 
 app.add_url_rule('/event/<cal_id>','list_events',view_func=EventListView.as_view('list_events'))
 
