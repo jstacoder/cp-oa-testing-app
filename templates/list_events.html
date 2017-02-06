@@ -1,10 +1,11 @@
 {% extends "layout_base.html" %}
 {% block body %}
     <pre>
-        {{ events }}
-
+        {{ events | pprint }}
+    </pre>
+    <p>
         {{ pages.current }}
 
         {{ pages.total }}
-    </pre>
+    </p>
 {% endblock %}
