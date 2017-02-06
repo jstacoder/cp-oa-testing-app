@@ -37,7 +37,7 @@ class EventListView(flask_views.MethodView):
     def get(self,cal_id=None):
         if cal_id is None:
             return flask.abort(404)
-        events = load_session().get("https://api.cronofy.com/v1/calendars/{}/events".format(cal_id)).json()
+        events = load_session().get("https://api.cronofy.com/v1/events").json()
         return flask.jsonify(events)
 
 app.add_url_rule('/event/<cal_id>','list_events',view_func=EventListView.as_view('list_events'))
@@ -69,7 +69,6 @@ class EventView(flask_views.MethodView):
         res_json = json.dumps(dict(status=response.status_code))
         return flask.redirect(flask.url_for('list_events',cal_id=cal_id))
         
-
 
 app.add_url_rule("/event/add/<cal_id>","add_event",view_func=EventView.as_view('add_event'))
 
